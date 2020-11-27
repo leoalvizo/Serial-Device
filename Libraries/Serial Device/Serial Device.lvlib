@@ -21,6 +21,7 @@
 				<Item Name="Write Port Argument--cluster.ctl" Type="VI" URL="../Write Port Argument--cluster.ctl"/>
 				<Item Name="Write Pin Argument--cluster.ctl" Type="VI" URL="../Write Pin Argument--cluster.ctl"/>
 				<Item Name="Read ADC Argument--cluster.ctl" Type="VI" URL="../Read ADC Argument--cluster.ctl"/>
+				<Item Name="Read Port Argument--cluster.ctl" Type="VI" URL="../Read Port Argument--cluster.ctl"/>
 			</Item>
 			<Item Name="Broadcast" Type="Folder">
 				<Item Name="Did Init Argument--cluster.ctl" Type="VI" URL="../Did Init Argument--cluster.ctl"/>
@@ -36,6 +37,7 @@
 			<Item Name="Write Port.vi" Type="VI" URL="../Write Port.vi"/>
 			<Item Name="Write Pin.vi" Type="VI" URL="../Write Pin.vi"/>
 			<Item Name="Read ADC.vi" Type="VI" URL="../Read ADC.vi"/>
+			<Item Name="Read Port.vi" Type="VI" URL="../Read Port.vi"/>
 		</Item>
 		<Item Name="Start Module.vi" Type="VI" URL="../Start Module.vi"/>
 		<Item Name="Synchronize Module Events.vi" Type="VI" URL="../Synchronize Module Events.vi"/>
