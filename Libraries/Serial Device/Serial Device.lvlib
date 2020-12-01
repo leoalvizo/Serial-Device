@@ -22,6 +22,7 @@
 				<Item Name="Write Pin Argument--cluster.ctl" Type="VI" URL="../Write Pin Argument--cluster.ctl"/>
 				<Item Name="Read ADC Argument--cluster.ctl" Type="VI" URL="../Read ADC Argument--cluster.ctl"/>
 				<Item Name="Read Port Argument--cluster.ctl" Type="VI" URL="../Read Port Argument--cluster.ctl"/>
+				<Item Name="Read Pin Argument--cluster.ctl" Type="VI" URL="../Read Pin Argument--cluster.ctl"/>
 			</Item>
 			<Item Name="Broadcast" Type="Folder">
 				<Item Name="Did Init Argument--cluster.ctl" Type="VI" URL="../Did Init Argument--cluster.ctl"/>
@@ -38,6 +39,7 @@
 			<Item Name="Write Pin.vi" Type="VI" URL="../Write Pin.vi"/>
 			<Item Name="Read ADC.vi" Type="VI" URL="../Read ADC.vi"/>
 			<Item Name="Read Port.vi" Type="VI" URL="../Read Port.vi"/>
+			<Item Name="Read Pin.vi" Type="VI" URL="../Read Pin.vi"/>
 		</Item>
 		<Item Name="Start Module.vi" Type="VI" URL="../Start Module.vi"/>
 		<Item Name="Synchronize Module Events.vi" Type="VI" URL="../Synchronize Module Events.vi"/>
@@ -112,4 +114,5 @@
 	<Item Name="Main.vi" Type="VI" URL="../Main.vi">
 		<Property Name="NI.LibItem.Scope" Type="Int">2</Property>
 	</Item>
+	<Item Name="connect.vi" Type="VI" URL="../connect.vi"/>
 </Library>
