@@ -23,6 +23,11 @@
 				<Item Name="Read ADC Argument--cluster.ctl" Type="VI" URL="../Read ADC Argument--cluster.ctl"/>
 				<Item Name="Read Port Argument--cluster.ctl" Type="VI" URL="../Read Port Argument--cluster.ctl"/>
 				<Item Name="Read Pin Argument--cluster.ctl" Type="VI" URL="../Read Pin Argument--cluster.ctl"/>
+				<Item Name="Write Port (Reply Payload)--cluster.ctl" Type="VI" URL="../Write Port (Reply Payload)--cluster.ctl"/>
+				<Item Name="Write Pin (Reply Payload)--cluster.ctl" Type="VI" URL="../Write Pin (Reply Payload)--cluster.ctl"/>
+				<Item Name="Read ADC (Reply Payload)--cluster.ctl" Type="VI" URL="../Read ADC (Reply Payload)--cluster.ctl"/>
+				<Item Name="Read Port (Reply Payload)--cluster.ctl" Type="VI" URL="../Read Port (Reply Payload)--cluster.ctl"/>
+				<Item Name="Read Pin (Reply Payload)--cluster.ctl" Type="VI" URL="../Read Pin (Reply Payload)--cluster.ctl"/>
 			</Item>
 			<Item Name="Broadcast" Type="Folder">
 				<Item Name="Did Init Argument--cluster.ctl" Type="VI" URL="../Did Init Argument--cluster.ctl"/>
@@ -114,5 +119,4 @@
 	<Item Name="Main.vi" Type="VI" URL="../Main.vi">
 		<Property Name="NI.LibItem.Scope" Type="Int">2</Property>
 	</Item>
-	<Item Name="connect.vi" Type="VI" URL="../connect.vi"/>
 </Library>

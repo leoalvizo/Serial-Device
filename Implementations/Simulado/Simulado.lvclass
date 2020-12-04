@@ -1,5 +1,7 @@
 ﻿<?xml version='1.0' encoding='UTF-8'?>
 <LVClass LVVersion="20008000">
+	<Property Name="NI.Lib.Description" Type="Str">En esta libreria se tienen los vi from override que se toman de la libreria padre Serial device, para poder realizar las acciones correspondientesa cada microcontrolador</Property>
+	<Property Name="NI.Lib.HelpPath" Type="Str"></Property>
 	<Property Name="NI.Lib.Icon" Type="Bin">)!#!!!!!!!)!"1!&amp;!!!-!%!!!@````]!!!!"!!%!!!)Y!!!*Q(C=\&gt;7R&lt;?.!%)8B2_--/&amp;8IQ-":,5TEH#69,5TE8#F$N4!NK!3JB7F",;A&amp;_N`V7,!"H91\H(%8G/O6K&lt;@=W=`EAJ&lt;[=3@^U(TNW&amp;U]@G?]&amp;7NNNZP0D=^P(`0]+@QUPY^8D80L8[\`0P]8YV@^@T:_Z&gt;$X]8X]WW/[OEG`@-]/;C]C?N+$\H247WJ/]C20]C20]C10]C!0]C!0]C"X=C&gt;X=C&gt;X=C=X=C-X=C-X=C0PD6TE)B=ZJ'4R:+'E;&amp;)AO2C+EI`%EXA34_,BKR*0YEE]C3@R=)E34_**0)EH]4".C3@R**\%EXAIV38:'TG?R%.Z":\!%XA#4_"B317?!"!M&amp;B1/CM"1-"C="*\!%XAY6?!*0)%H]!1?BB6Y!E`A#4S"BSH^LE48N%;/BT*S0)\(]4A?RU.J/2\(YXA=D_.B/4E?R_-AH!7&gt;YB$E4()O=,YY(M@$,TE?R_.Y()`D9;A`)?^XJGF;)]&gt;D?!S0Y4%]BI=3-DS'R`!9(M.$72E?QW.Y$)`B93E:(M.D?!S)M3D,SSBG4$1O-A,$QU`@,&gt;;@5H3*^3&lt;6ZF6N3N6G5WUCV?:10846QV1^*.8.6^V5V=V3X146([&gt;#KT#K2634WY5[]HGA\_F&lt;_I;_JK`I)XV*8\3J@`H#Y`'IQ_'A`8[P\8;LT7;D^8KNV7KF=2SV8#[V7#R/LY'@N.-,Y?W^.((?_]-Y4)]PQX4`0%SXH$_.QWG-`E8`3`_$&gt;[.O^,%O^_A6'*1*T!!!!!!</Property>
 	<Property Name="NI.Lib.SourceVersion" Type="Int">536903680</Property>
 	<Property Name="NI.Lib.Version" Type="Str">1.0.0.5</Property>

@@ -1,0 +1,1426 @@
+= Documentacion Serial Device
+Leonardo Alvizo
+:doctype: book
+:toc: 
+:imagesdir: Images
+:sectnums: 
+:toclevels: 3
+:chapter-label: Section
+
+== Project description
+
+La intención de este proyecto es generar una interfaz de un modulo DQMH clonable donde se puedan trabajar varios microcontroladores al mismo tiempo con un solo panel frontal cloneable.
+a demás de esto, cada controlador tiene sus propias aaciones que se describiran a continuación
+
+== Code component descriptions
+
+=== DQMH(R) modules
+
+This section describes DQMH(R) module responsibilities and relationships.
+
+==== Preamble
+
+A DQMH module is the main component of an architecture based on DQMH(R) framework. A DQMH module is used to implement a section of the application that has one responsibility.
+
+DQMH(R) framework defines two different type of DQMH module.  
+
+====
+*Singleton:*
+
+A Singleton DQMH module can have only one instance running at any given time.
+====
+
+====
+*Cloneable:*
+
+A Cloneable DQMH module can have one or multiple instances running in parallel.
+====
+
+DQMH(R) framework defines two different ways to carry data throughout the application and with both other DQMH modules and non-DQMH based code.
+
+====
+*Request events:*
+
+A request is a code that fires an event requesting the DQMH module to do something. Multiple locations in the code can send events to the DQMH module.
+
+Request events are many-to-one.
+
+Requests are usually named using imperative tense.
+====
+
+====
+*Broadcast events:*
+
+A broadcast is a code that fires an event broadcasting that the DQMH module did something. Multiple Event Structures can register to handle the Broadcast Events.
+
+Broadcast Events are one-to-many.
+
+Broadcasts are usually named using past tense or passive voice.
+====
+
+NOTE: Refer to the DQMH(R) framework official http://delacor.com/documentation/dqmh-html/[documentation] to find more details on how the framework works
+
+
+The following section gives you details on the project architecture relying on this framework.
+It gives you an overview of the modules' interaction and detailed information on each module.
+
+Graphs used in this section have the following legend:
+
+*Components:*
+
+
+[graphviz, format="png", align="center"]
+....
+digraph G80353 {
+rankdir=LR;
+edge[dir=both color=black  arrowhead=normal arrowtail=none style=filled penwidth=1]
+node[color=black shape=box]
+"DQMH module / Lvlib"[color=black shape=component]
+"Vi"[color=skyblue shape=note]
+}
+....
+
+*Events:*
+
+[graphviz, format="png", align="center"]
+....
+digraph G421673 {
+rankdir=LR;
+edge[dir=both color=black  arrowhead=normal arrowtail=none style=filled penwidth=1]
+node[color=black shape=box]
+" "[color=white shape=box]
+"  "[color=white shape=box]
+"   "[color=white shape=box]
+"    "[color=white shape=box]
+" " -> "  " [label="Request to a DQMH module" dir=both color=forestgreen  arrowhead=normal arrowtail=none style=filled penwidth=1];
+"   " -> "    " [label="Broadcast from a DQMH module" dir=both color=goldenrod  arrowhead=normal arrowtail=none style=dashed penwidth=1];
+}
+....
+
+*Start and Stop module callers:*
+
+[graphviz, format="png", align="center"]
+....
+digraph G393359 {
+rankdir=LR;
+edge[dir=both color=black  arrowhead=normal arrowtail=none style=filled penwidth=1]
+node[color=black shape=box]
+"Start Module
+caller"[color=black shape=component]
+"Start Module"[color=yellowgreen shape=note]
+"Start Module" -> "Start Module
+caller" [label="Called by" dir=both color=yellowgreen  arrowhead=odot arrowtail=inv style=filled penwidth=1];
+}
+....
+
+[graphviz, format="png", align="center"]
+....
+digraph G327354 {
+rankdir=LR;
+edge[dir=both color=black  arrowhead=normal arrowtail=none style=filled penwidth=1]
+node[color=black shape=box]
+"Stop Module
+caller"[color=black shape=component]
+"Stop Module"[color=tomato shape=note]
+"Stop Module" -> "Stop Module
+caller" [label="Called by" dir=both color=tomato  arrowhead=odot arrowtail=inv style=dotted penwidth=1];
+}
+....
+
+
+==== Modules overview
+
+This project contains the following modules.
+
+.Modules list
+|===
+|Singleton|Cloneable
+
+|
+|<<Serial Device.lvlib>>
+|===
+
+This graph represents the links between all DQMH modules.
+
+[graphviz, format="png", align="center"]
+....
+digraph G775854 {
+rankdir=LR;
+edge[dir=both color=black  arrowhead=normal arrowtail=none style=filled penwidth=1]
+node[color=black shape=box]
+"Serial Device setup"[color=skyblue shape=note]
+"Serial Device teardown"[color=skyblue shape=note]
+"Serial Device"[color=black shape=component]
+"Test - Serial Device - Write Port 1"[color=skyblue shape=note]
+"Test - Serial Device - Write Pin 1"[color=skyblue shape=note]
+"Test - Serial Device - Read ADC 1"[color=skyblue shape=note]
+"Test - Serial Device - Read Port 1"[color=skyblue shape=note]
+"Test - Serial Device - Read Pin 1"[color=skyblue shape=note]
+"Serial Device" -> "Serial Device" [dir=both color=forestgreen  arrowhead=normal arrowtail=none style=filled penwidth=1];
+"Test - Serial Device - Write Port 1" -> "Serial Device" [dir=both color=forestgreen  arrowhead=normal arrowtail=none style=filled penwidth=1];
+"Test - Serial Device - Write Pin 1" -> "Serial Device" [dir=both color=forestgreen  arrowhead=normal arrowtail=none style=filled penwidth=1];
+"Test - Serial Device - Read ADC 1" -> "Serial Device" [dir=both color=forestgreen  arrowhead=normal arrowtail=none style=filled penwidth=1];
+"Test - Serial Device - Read Port 1" -> "Serial Device" [dir=both color=forestgreen  arrowhead=normal arrowtail=none style=filled penwidth=1];
+"Test - Serial Device - Read Pin 1" -> "Serial Device" [dir=both color=forestgreen  arrowhead=normal arrowtail=none style=filled penwidth=1];
+}
+....
+
+
+==== Serial Device.lvlib
+
+*Type:* Cloneable
+
+*Responsibility*: No description found (add content in DQMH module lvlib description)
+
+===== Module Start/Stop calls
+
+[graphviz, format="png", align="center"]
+....
+digraph G994656 {
+rankdir=LR;
+edge[dir=both color=black  arrowhead=normal arrowtail=none style=filled penwidth=1]
+node[color=black shape=box]
+"Start Module"[color=yellowgreen shape=note]
+"Serial Device setup"[color=skyblue shape=note]
+"Test Serial Device API"[color=skyblue shape=note]
+"Stop Module"[color=tomato shape=note]
+"Serial Device teardown"[color=skyblue shape=note]
+"Serial Device"[color=black shape=component]
+"Start Module" -> "Serial Device setup" [dir=both color=yellowgreen  arrowhead=odot arrowtail=inv style=filled penwidth=1];
+"Start Module" -> "Test Serial Device API" [dir=both color=yellowgreen  arrowhead=odot arrowtail=inv style=filled penwidth=1];
+"Stop Module" -> "Serial Device teardown" [dir=both color=tomato  arrowhead=odot arrowtail=inv style=dotted penwidth=1];
+"Stop Module" -> "Serial Device" [dir=both color=tomato  arrowhead=odot arrowtail=inv style=dotted penwidth=1];
+"Stop Module" -> "Test Serial Device API" [dir=both color=tomato  arrowhead=odot arrowtail=inv style=dotted penwidth=1];
+}
+....
+
+.Start and Stop module callers
+|===
+|Function|Callers
+
+|<<Serial Device.lvlib:Start Module.vi>>
+|Serial Device setup.vi +
+Test Serial Device API.vi
+
+|<<Serial Device.lvlib:Stop Module.vi>>
+|Serial Device teardown.vi +
+Serial Device.lvlib:Handle Exit.vi +
+Test Serial Device API.vi
+|===
+
+===== Module relationship
+
+[graphviz, format="png", align="center"]
+....
+digraph G12196 {
+rankdir=LR;
+edge[dir=both color=black  arrowhead=normal arrowtail=none style=filled penwidth=1]
+node[color=black shape=box]
+"Serial Device"[color=slateblue shape=component]
+"Serial Device setup"[color=skyblue shape=note]
+"Test Serial Device API"[color=skyblue shape=note]
+"Serial Device teardown"[color=skyblue shape=note]
+"Test - Serial Device - Write Port 1"[color=skyblue shape=note]
+"Test - Serial Device - Write Pin 1"[color=skyblue shape=note]
+"Test - Serial Device - Read ADC 1"[color=skyblue shape=note]
+"Test - Serial Device - Read Port 1"[color=skyblue shape=note]
+"Test - Serial Device - Read Pin 1"[color=skyblue shape=note]
+"Serial Device setup" -> "Serial Device" [dir=both color=forestgreen  arrowhead=normal arrowtail=none style=filled penwidth=1];
+"Test Serial Device API" -> "Serial Device" [dir=both color=forestgreen  arrowhead=normal arrowtail=none style=filled penwidth=1];
+"Serial Device teardown" -> "Serial Device" [dir=both color=forestgreen  arrowhead=normal arrowtail=none style=filled penwidth=1];
+"Serial Device" -> "Serial Device" [dir=both color=forestgreen  arrowhead=normal arrowtail=none style=filled penwidth=1];
+"Test - Serial Device - Write Port 1" -> "Serial Device" [dir=both color=forestgreen  arrowhead=normal arrowtail=none style=filled penwidth=1];
+"Test - Serial Device - Write Pin 1" -> "Serial Device" [dir=both color=forestgreen  arrowhead=normal arrowtail=none style=filled penwidth=1];
+"Test - Serial Device - Read ADC 1" -> "Serial Device" [dir=both color=forestgreen  arrowhead=normal arrowtail=none style=filled penwidth=1];
+"Test - Serial Device - Read Port 1" -> "Serial Device" [dir=both color=forestgreen  arrowhead=normal arrowtail=none style=filled penwidth=1];
+"Test - Serial Device - Read Pin 1" -> "Serial Device" [dir=both color=forestgreen  arrowhead=normal arrowtail=none style=filled penwidth=1];
+"Serial Device" -> "Test Serial Device API" [label=" " dir=both color=goldenrod  arrowhead=normal arrowtail=none style=dashed penwidth=1];
+}
+....
+
+.Requests callers
+|===
+|Request Name|Callers
+
+|<<Serial Device.lvlib:Show Panel.vi>>
+|Test Serial Device API.vi
+
+|<<Serial Device.lvlib:Hide Panel.vi>>
+|Test Serial Device API.vi
+
+|<<Serial Device.lvlib:Show Diagram.vi>>
+|Test Serial Device API.vi
+
+|<<Serial Device.lvlib:Write Port.vi>>
+|Test - Serial Device - Write Port 1.vi +
+Test Serial Device API.vi
+
+|<<Serial Device.lvlib:Write Pin.vi>>
+|Test - Serial Device - Write Pin 1.vi +
+Test Serial Device API.vi
+
+|<<Serial Device.lvlib:Read ADC.vi>>
+|Test - Serial Device - Read ADC 1.vi +
+Test Serial Device API.vi
+
+|<<Serial Device.lvlib:Read Port.vi>>
+|Test - Serial Device - Read Port 1.vi +
+Test Serial Device API.vi
+
+|<<Serial Device.lvlib:Read Pin.vi>>
+|Test - Serial Device - Read Pin 1.vi +
+Test Serial Device API.vi
+|===
+
+.Broadcasts Listeners
+|===
+|Broadcast Name|Listeners
+
+|<<Serial Device.lvlib:Module Did Init.vi>>
+|Test Serial Device API.vi
+
+|<<Serial Device.lvlib:Status Updated.vi>>
+|Test Serial Device API.vi
+
+|<<Serial Device.lvlib:Error Reported.vi>>
+|Test Serial Device API.vi
+
+|<<Serial Device.lvlib:Module Did Stop.vi>>
+|Test Serial Device API.vi
+
+|<<Serial Device.lvlib:Update Module Execution Status.vi>>
+|Test Serial Device API.vi
+|===
+
+.Used requests
+|===
+|Module|Brodcasts
+
+|--
+|--
+|===
+
+.Registred broadcast
+|===
+|Module|Brodcasts
+
+|--
+|--
+|===
+
+=== Libraries
+
+This section describes the libraries contained in the project.
+
+=== Classes
+
+This section describes the classes contained in the project.
+
+==== Serial Device.lvclass
+
+Esta es la clase padre, de donde heredan las demas, que son los dispositivos que se pueden usar en el programa, aqui se hacen los vi from dynamic dispatch apara poder crear overrides en las librerias hijas.
+esta parte es fundamental en el HAL, puesto que de aqui se desencadena la posibilidad de tener varios controladores diferentes en una sola interfaz
+
+
+==== Arduino.lvclass
+
+En esta libreria se tienen los vi from override que se toman de la libreria padre Serial device, para poder realizar las acciones correspondientesa cada microcontrolador
+
+
+==== Cypress.lvclass
+
+En esta libreria se tienen los vi from override que se toman de la libreria padre Serial device, para poder realizar las acciones correspondientesa cada microcontrolador
+
+
+==== NXP.lvclass
+
+En esta libreria se tienen los vi from override que se toman de la libreria padre Serial device, para poder realizar las acciones correspondientesa cada microcontrolador
+
+
+==== Simulado.lvclass
+
+En esta libreria se tienen los vi from override que se toman de la libreria padre Serial device, para poder realizar las acciones correspondientesa cada microcontrolador
+
+
+==== TI.lvclass
+
+En esta libreria se tienen los vi from override que se toman de la libreria padre Serial device, para poder realizar las acciones correspondientesa cada microcontrolador
+
+
+==== Test Write Port.lvclass
+
+No description found (add content in lvlib description)
+
+
+== VI descriptions
+
+=== DQMH(R) modules
+
+This section describes DQMH(R) modules events.
+
+==== Serial Device.lvlib
+
+===== Serial Device.lvlib:Start Module.vi
+
+*Event type:* Not a DQMH Event
+
+:imgpath: Serial Device.lvlib_Start Module.vi.png
+image::{imgpath}[Serial Device.lvlib:Start Module.vi]
+
+*Description:*
+++++
+Launches the Module Main.vi.
+_____
+Based on Delacor QMH Project Template 5.0.0.82.
+++++
+
+===== Serial Device.lvlib:Stop Module.vi
+
+*Event type:* Not a DQMH Event
+
+:imgpath: Serial Device.lvlib_Stop Module.vi.png
+image::{imgpath}[Serial Device.lvlib:Stop Module.vi]
+
+*Description:*
+++++
+Send the Stop request to the Module's Main.vi.
+_____
+Based on Delacor QMH Project Template 5.0.0.82.
+++++
+
+===== Serial Device.lvlib:Show Panel.vi
+
+*Event type:* Request
+
+:imgpath: Serial Device.lvlib_Show Panel.vi.png
+image::{imgpath}[Serial Device.lvlib:Show Panel.vi]
+
+*Description:*
+++++
+Send the Show Panel request to the Module's Main.vi.
+_____
+Based on Delacor QMH Project Template 5.0.0.82.
+++++
+
+===== Serial Device.lvlib:Hide Panel.vi
+
+*Event type:* Request
+
+:imgpath: Serial Device.lvlib_Hide Panel.vi.png
+image::{imgpath}[Serial Device.lvlib:Hide Panel.vi]
+
+*Description:*
+++++
+Send the Hide Panel request to the Module's Main.vi.
+_____
+Based on Delacor QMH Project Template 5.0.0.82.
+++++
+
+===== Serial Device.lvlib:Show Diagram.vi
+
+*Event type:* Request
+
+:imgpath: Serial Device.lvlib_Show Diagram.vi.png
+image::{imgpath}[Serial Device.lvlib:Show Diagram.vi]
+
+*Description:*
+++++
+This VI tells the Module to show its block diagram to facilitate troubleshooting (add probes, breakpoints, highlight execution, etc).
+
+_____
+Based on Delacor QMH Project Template 5.0.0.82.
+++++
+
+===== Serial Device.lvlib:Write Port.vi
+
+*Event type:* Request And Wait For Reply
+
+:imgpath: Serial Device.lvlib_Write Port.vi.png
+image::{imgpath}[Serial Device.lvlib:Write Port.vi]
+
+*Description:*
+++++
+The user can modify the value of the Port that is linked into a bar led, the value must be in hex.
+_____
+Created using Delacor QMH Event Scripter 5.0.0.112.
+++++
+
+===== Serial Device.lvlib:Write Pin.vi
+
+*Event type:* Request And Wait For Reply
+
+:imgpath: Serial Device.lvlib_Write Pin.vi.png
+image::{imgpath}[Serial Device.lvlib:Write Pin.vi]
+
+*Description:*
+++++
+In this Event the user can modify the status of each pin of the port selected
+_____
+Created using Delacor QMH Event Scripter 5.0.0.112.
+++++
+
+===== Serial Device.lvlib:Read ADC.vi
+
+*Event type:* Request And Wait For Reply
+
+:imgpath: Serial Device.lvlib_Read ADC.vi.png
+image::{imgpath}[Serial Device.lvlib:Read ADC.vi]
+
+*Description:*
+++++
+Send the channel of the ADC to read and wait for the response of the Microcontroller
+_____
+Created using Delacor QMH Event Scripter 5.0.0.112.
+++++
+
+===== Serial Device.lvlib:Read Port.vi
+
+*Event type:* Request And Wait For Reply
+
+:imgpath: Serial Device.lvlib_Read Port.vi.png
+image::{imgpath}[Serial Device.lvlib:Read Port.vi]
+
+*Description:*
+++++
+The user can read an specific port that is selected from the UI of each instance
+_____
+Created using Delacor QMH Event Scripter 5.0.0.112.
+++++
+
+===== Serial Device.lvlib:Read Pin.vi
+
+*Event type:* Request And Wait For Reply
+
+:imgpath: Serial Device.lvlib_Read Pin.vi.png
+image::{imgpath}[Serial Device.lvlib:Read Pin.vi]
+
+*Description:*
+++++
+Read the Pin of the port and pin selected
+_____
+Created using Delacor QMH Event Scripter 5.0.0.112.
+++++
+
+===== Serial Device.lvlib:Module Did Init.vi
+
+*Event type:* Broadcast
+
+:imgpath: Serial Device.lvlib_Module Did Init.vi.png
+image::{imgpath}[Serial Device.lvlib:Module Did Init.vi]
+
+*Description:*
+++++
+Send the Module Did Init event to any VI registered to listen to this module's broadcast events.
+_____
+Based on Delacor QMH Project Template 5.0.0.82.
+++++
+
+===== Serial Device.lvlib:Status Updated.vi
+
+*Event type:* Broadcast
+
+:imgpath: Serial Device.lvlib_Status Updated.vi.png
+image::{imgpath}[Serial Device.lvlib:Status Updated.vi]
+
+*Description:*
+++++
+Send the Status Updated event to any VI registered to listen to events from the owning module.
+_____
+Based on Delacor QMH Project Template 5.0.0.82.
+++++
+
+===== Serial Device.lvlib:Error Reported.vi
+
+*Event type:* Broadcast
+
+:imgpath: Serial Device.lvlib_Error Reported.vi.png
+image::{imgpath}[Serial Device.lvlib:Error Reported.vi]
+
+*Description:*
+++++
+Send the Error Reported event to any VI registered to listen to events from the owning module.
+_____
+Based on Delacor QMH Project Template 5.0.0.82.
+++++
+
+===== Serial Device.lvlib:Module Did Stop.vi
+
+*Event type:* Broadcast
+
+:imgpath: Serial Device.lvlib_Module Did Stop.vi.png
+image::{imgpath}[Serial Device.lvlib:Module Did Stop.vi]
+
+*Description:*
+++++
+Send the Module Did Stop event to any VI registered to listen to this module's broadcast events.
+_____
+Based on Delacor QMH Project Template 5.0.0.82.
+++++
+
+===== Serial Device.lvlib:Update Module Execution Status.vi
+
+*Event type:* Broadcast
+
+:imgpath: Serial Device.lvlib_Update Module Execution Status.vi.png
+image::{imgpath}[Serial Device.lvlib:Update Module Execution Status.vi]
+
+*Description:*
+++++
+Fire the Get Module Execution Status request.
+_____
+Created using Delacor QMH Event Scripter 3.0.0.12.
+_____
+Based on Delacor QMH Project Template 5.0.0.82.
+++++
+
+=== Libraries
+
+This section describes libraries public VIs.
+
+=== Classes
+
+This section describes classes public VIs.
+
+==== Serial Device.lvclass
+
+===== Serial Device.lvclass:Read Visa Com Port.vi
+
+:imgpath: Serial Device.lvclass_Read Visa Com Port.vi.png
+image::{imgpath}[Serial Device.lvclass:Read Visa Com Port.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== Serial Device.lvclass:Write Visa Com Port.vi
+
+:imgpath: Serial Device.lvclass_Write Visa Com Port.vi.png
+image::{imgpath}[Serial Device.lvclass:Write Visa Com Port.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== Serial Device.lvclass:Close Connection.vi
+
+:imgpath: Serial Device.lvclass_Close Connection.vi.png
+image::{imgpath}[Serial Device.lvclass:Close Connection.vi]
+
+*Description:*
+++++
+Este vi de close conection, se utiliza para cerrar la comunicación de manera adecuada con el microcontrolador, de esta manera no se queda la comunicación activa y se deja el puerto habilitado
+++++
+
+===== Serial Device.lvclass:Initialize.vi
+
+:imgpath: Serial Device.lvclass_Initialize.vi.png
+image::{imgpath}[Serial Device.lvclass:Initialize.vi]
+
+*Description:*
+++++
+En este vi de inicialización, donde se prepara para abrir la comuniacón entre el software y el micrcontrolado, se ajusta el puerto serial
+++++
+
+===== Serial Device.lvclass:PIN READ.vi
+
+:imgpath: Serial Device.lvclass_PIN READ.vi.png
+image::{imgpath}[Serial Device.lvclass:PIN READ.vi]
+
+*Description:*
+++++
+Pin Read es el vi donde se recibe la respuesta del estado del pin por el cual se pregunto, en este vi tambien se quita el prefijo para que quede unicamente el valor
+++++
+
+===== Serial Device.lvclass:Port to Read.vi
+
+:imgpath: Serial Device.lvclass_Port to Read.vi.png
+image::{imgpath}[Serial Device.lvclass:Port to Read.vi]
+
+*Description:*
+++++
+Port to read es el vi donde se manda al microcontrolador los datos del puerto que se desea leer
+++++
+
+===== Serial Device.lvclass:Read ADC.vi
+
+:imgpath: Serial Device.lvclass_Read ADC.vi.png
+image::{imgpath}[Serial Device.lvclass:Read ADC.vi]
+
+*Description:*
+++++
+Read ADC es el vi donde se manda al microcontrolador los datos del canal analogico que se desea leer
+++++
+
+===== Serial Device.lvclass:Read Command.vi
+
+:imgpath: Serial Device.lvclass_Read Command.vi.png
+image::{imgpath}[Serial Device.lvclass:Read Command.vi]
+
+*Description:*
+++++
+Read command es un vi generico para leer todo lo que el microcontrolador responde despues de hacer cualquier acción
+++++
+
+===== Serial Device.lvclass:Read Number.vi
+
+:imgpath: Serial Device.lvclass_Read Number.vi.png
+image::{imgpath}[Serial Device.lvclass:Read Number.vi]
+
+*Description:*
+++++
+Read Number es el vi especifico para leer el puerto, se leen todos los datos del microcontrolador y se quitan los prefijos de cada una de las librerias diferentes, para unicamente dejar el valor en hexadecimal y despues ser convertido en un arreglo de booleanos
+++++
+
+===== Serial Device.lvclass:Read Pin.vi
+
+:imgpath: Serial Device.lvclass_Read Pin.vi.png
+image::{imgpath}[Serial Device.lvclass:Read Pin.vi]
+
+*Description:*
+++++
+Read Pin es el vi donde se envian los datos del pin que se desea leer al microcontrolador, se envian los datos de puerto y pin
+++++
+
+===== Serial Device.lvclass:Set Port Status.vi
+
+:imgpath: Serial Device.lvclass_Set Port Status.vi.png
+image::{imgpath}[Serial Device.lvclass:Set Port Status.vi]
+
+*Description:*
+++++
+Set Port Status es el vi donde se escribe el valor del puerto en hexadecimal para que sea recibido por el microcontrolador y pueda encender sus leds correspondientes
+++++
+
+===== Serial Device.lvclass:Write Pin.vi
+
+:imgpath: Serial Device.lvclass_Write Pin.vi.png
+image::{imgpath}[Serial Device.lvclass:Write Pin.vi]
+
+*Description:*
+++++
+Write Pin es el vi donde se escribe el valor del puerto en binario para que sea recibido por el microcontrolador y pueda encender o apagar el led correspondiente
+++++
+
+==== Arduino.lvclass
+
+===== Arduino.lvclass:Close Connection.vi
+
+:imgpath: Arduino.lvclass_Close Connection.vi.png
+image::{imgpath}[Arduino.lvclass:Close Connection.vi]
+
+*Description:*
+++++
+Este vi de close conection, se utiliza para cerrar la comunicación de manera adecuada con el microcontrolador, de esta manera no se queda la comunicación activa y se deja el puerto habilitado
+++++
+
+===== Arduino.lvclass:Initialize.vi
+
+:imgpath: Arduino.lvclass_Initialize.vi.png
+image::{imgpath}[Arduino.lvclass:Initialize.vi]
+
+*Description:*
+++++
+En este vi de inicialización, donde se prepara para abrir la comuniacón entre el software y el micrcontrolado, se ajusta el puerto serial
+++++
+
+===== Arduino.lvclass:PIN READ.vi
+
+:imgpath: Arduino.lvclass_PIN READ.vi.png
+image::{imgpath}[Arduino.lvclass:PIN READ.vi]
+
+*Description:*
+++++
+Pin Read es el vi donde se recibe la respuesta del estado del pin por el cual se pregunto, en este vi tambien se quita el prefijo para que quede unicamente el valor
+
+++++
+
+===== Arduino.lvclass:Port to Read.vi
+
+:imgpath: Arduino.lvclass_Port to Read.vi.png
+image::{imgpath}[Arduino.lvclass:Port to Read.vi]
+
+*Description:*
+++++
+Port to read es el vi donde se manda al microcontrolador los datos del puerto que se desea leer
+++++
+
+===== Arduino.lvclass:Read ADC.vi
+
+:imgpath: Arduino.lvclass_Read ADC.vi.png
+image::{imgpath}[Arduino.lvclass:Read ADC.vi]
+
+*Description:*
+++++
+Read ADC es el vi donde se manda al microcontrolador los datos del canal analogico que se desea leer
+++++
+
+===== Arduino.lvclass:Read Command.vi
+
+:imgpath: Arduino.lvclass_Read Command.vi.png
+image::{imgpath}[Arduino.lvclass:Read Command.vi]
+
+*Description:*
+++++
+Read command es un vi generico para leer todo lo que el microcontrolador responde despues de hacer cualquier acción
+++++
+
+===== Arduino.lvclass:Read Number.vi
+
+:imgpath: Arduino.lvclass_Read Number.vi.png
+image::{imgpath}[Arduino.lvclass:Read Number.vi]
+
+*Description:*
+++++
+Read Number es el vi especifico para leer el puerto, se leen todos los datos del microcontrolador y se quitan los prefijos de cada una de las librerias diferentes, para unicamente dejar el valor en hexadecimal y despues ser convertido en un arreglo de booleanos
+++++
+
+===== Arduino.lvclass:Read Pin.vi
+
+:imgpath: Arduino.lvclass_Read Pin.vi.png
+image::{imgpath}[Arduino.lvclass:Read Pin.vi]
+
+*Description:*
+++++
+Read Pin es el vi donde se envian los datos del pin que se desea leer al microcontrolador, se envian los datos de puerto y pin
+++++
+
+===== Arduino.lvclass:Set Port Status.vi
+
+:imgpath: Arduino.lvclass_Set Port Status.vi.png
+image::{imgpath}[Arduino.lvclass:Set Port Status.vi]
+
+*Description:*
+++++
+Set Port Status es el vi donde se escribe el valor del puerto en hexadecimal para que sea recibido por el microcontrolador y pueda encender sus leds correspondientes
+++++
+
+===== Arduino.lvclass:Write Pin.vi
+
+:imgpath: Arduino.lvclass_Write Pin.vi.png
+image::{imgpath}[Arduino.lvclass:Write Pin.vi]
+
+*Description:*
+++++
+Write Pin es el vi donde se escribe el valor del puerto en binario para que sea recibido por el microcontrolador y pueda encender o apagar el led correspondiente
+++++
+
+==== Cypress.lvclass
+
+===== Cypress.lvclass:Close Connection.vi
+
+:imgpath: Cypress.lvclass_Close Connection.vi.png
+image::{imgpath}[Cypress.lvclass:Close Connection.vi]
+
+*Description:*
+++++
+Este vi de close conection, se utiliza para cerrar la comunicación de manera adecuada con el microcontrolador, de esta manera no se queda la comunicación activa y se deja el puerto habilitado
+++++
+
+===== Cypress.lvclass:Initialize.vi
+
+:imgpath: Cypress.lvclass_Initialize.vi.png
+image::{imgpath}[Cypress.lvclass:Initialize.vi]
+
+*Description:*
+++++
+En este vi de inicialización, donde se prepara para abrir la comuniacón entre el software y el micrcontrolado, se ajusta el puerto serial
+++++
+
+===== Cypress.lvclass:PIN READ.vi
+
+:imgpath: Cypress.lvclass_PIN READ.vi.png
+image::{imgpath}[Cypress.lvclass:PIN READ.vi]
+
+*Description:*
+++++
+Pin Read es el vi donde se recibe la respuesta del estado del pin por el cual se pregunto, en este vi tambien se quita el prefijo para que quede unicamente el valor
+++++
+
+===== Cypress.lvclass:Port to Read.vi
+
+:imgpath: Cypress.lvclass_Port to Read.vi.png
+image::{imgpath}[Cypress.lvclass:Port to Read.vi]
+
+*Description:*
+++++
+Port to read es el vi donde se manda al microcontrolador los datos del puerto que se desea leer
+++++
+
+===== Cypress.lvclass:Read ADC.vi
+
+:imgpath: Cypress.lvclass_Read ADC.vi.png
+image::{imgpath}[Cypress.lvclass:Read ADC.vi]
+
+*Description:*
+++++
+Read ADC es el vi donde se manda al microcontrolador los datos del canal analogico que se desea leer
+++++
+
+===== Cypress.lvclass:Read Command.vi
+
+:imgpath: Cypress.lvclass_Read Command.vi.png
+image::{imgpath}[Cypress.lvclass:Read Command.vi]
+
+*Description:*
+++++
+Read command es un vi generico para leer todo lo que el microcontrolador responde despues de hacer cualquier acción
+++++
+
+===== Cypress.lvclass:Read Number.vi
+
+:imgpath: Cypress.lvclass_Read Number.vi.png
+image::{imgpath}[Cypress.lvclass:Read Number.vi]
+
+*Description:*
+++++
+Read Number es el vi especifico para leer el puerto, se leen todos los datos del microcontrolador y se quitan los prefijos de cada una de las librerias diferentes, para unicamente dejar el valor en hexadecimal y despues ser convertido en un arreglo de booleanos
+++++
+
+===== Cypress.lvclass:Read Pin.vi
+
+:imgpath: Cypress.lvclass_Read Pin.vi.png
+image::{imgpath}[Cypress.lvclass:Read Pin.vi]
+
+*Description:*
+++++
+Read Pin es el vi donde se envian los datos del pin que se desea leer al microcontrolador, se envian los datos de puerto y pin
+++++
+
+===== Cypress.lvclass:Set Port Status.vi
+
+:imgpath: Cypress.lvclass_Set Port Status.vi.png
+image::{imgpath}[Cypress.lvclass:Set Port Status.vi]
+
+*Description:*
+++++
+Set Port Status es el vi donde se escribe el valor del puerto en hexadecimal para que sea recibido por el microcontrolador y pueda encender sus leds correspondientes
+++++
+
+===== Cypress.lvclass:Write Pin.vi
+
+:imgpath: Cypress.lvclass_Write Pin.vi.png
+image::{imgpath}[Cypress.lvclass:Write Pin.vi]
+
+*Description:*
+++++
+Write Pin es el vi donde se escribe el valor del puerto en binario para que sea recibido por el microcontrolador y pueda encender o apagar el led correspondiente
+++++
+
+==== NXP.lvclass
+
+===== NXP.lvclass:Close Connection.vi
+
+:imgpath: NXP.lvclass_Close Connection.vi.png
+image::{imgpath}[NXP.lvclass:Close Connection.vi]
+
+*Description:*
+++++
+Este vi de close conection, se utiliza para cerrar la comunicación de manera adecuada con el microcontrolador, de esta manera no se queda la comunicación activa y se deja el puerto habilitado
+++++
+
+===== NXP.lvclass:Initialize.vi
+
+:imgpath: NXP.lvclass_Initialize.vi.png
+image::{imgpath}[NXP.lvclass:Initialize.vi]
+
+*Description:*
+++++
+En este vi de inicialización, donde se prepara para abrir la comuniacón entre el software y el micrcontrolado, se ajusta el puerto serial
+++++
+
+===== NXP.lvclass:PIN READ.vi
+
+:imgpath: NXP.lvclass_PIN READ.vi.png
+image::{imgpath}[NXP.lvclass:PIN READ.vi]
+
+*Description:*
+++++
+Pin Read es el vi donde se recibe la respuesta del estado del pin por el cual se pregunto, en este vi tambien se quita el prefijo para que quede unicamente el valor
+++++
+
+===== NXP.lvclass:Port to Read.vi
+
+:imgpath: NXP.lvclass_Port to Read.vi.png
+image::{imgpath}[NXP.lvclass:Port to Read.vi]
+
+*Description:*
+++++
+Port to read es el vi donde se manda al microcontrolador los datos del puerto que se desea leer
+++++
+
+===== NXP.lvclass:Read ADC.vi
+
+:imgpath: NXP.lvclass_Read ADC.vi.png
+image::{imgpath}[NXP.lvclass:Read ADC.vi]
+
+*Description:*
+++++
+Read ADC es el vi donde se manda al microcontrolador los datos del canal analogico que se desea leer
+++++
+
+===== NXP.lvclass:Read Command.vi
+
+:imgpath: NXP.lvclass_Read Command.vi.png
+image::{imgpath}[NXP.lvclass:Read Command.vi]
+
+*Description:*
+++++
+Read command es un vi generico para leer todo lo que el microcontrolador responde despues de hacer cualquier acción
+++++
+
+===== NXP.lvclass:Read Number.vi
+
+:imgpath: NXP.lvclass_Read Number.vi.png
+image::{imgpath}[NXP.lvclass:Read Number.vi]
+
+*Description:*
+++++
+Read Number es el vi especifico para leer el puerto, se leen todos los datos del microcontrolador y se quitan los prefijos de cada una de las librerias diferentes, para unicamente dejar el valor en hexadecimal y despues ser convertido en un arreglo de booleanos
+++++
+
+===== NXP.lvclass:Read Pin.vi
+
+:imgpath: NXP.lvclass_Read Pin.vi.png
+image::{imgpath}[NXP.lvclass:Read Pin.vi]
+
+*Description:*
+++++
+Read Pin es el vi donde se envian los datos del pin que se desea leer al microcontrolador, se envian los datos de puerto y pin
+++++
+
+===== NXP.lvclass:Set Port Status.vi
+
+:imgpath: NXP.lvclass_Set Port Status.vi.png
+image::{imgpath}[NXP.lvclass:Set Port Status.vi]
+
+*Description:*
+++++
+Set Port Status es el vi donde se escribe el valor del puerto en hexadecimal para que sea recibido por el microcontrolador y pueda encender sus leds correspondientes
+++++
+
+===== NXP.lvclass:Write Pin.vi
+
+:imgpath: NXP.lvclass_Write Pin.vi.png
+image::{imgpath}[NXP.lvclass:Write Pin.vi]
+
+*Description:*
+++++
+Write Pin es el vi donde se escribe el valor del puerto en binario para que sea recibido por el microcontrolador y pueda encender o apagar el led correspondiente
+++++
+
+==== Simulado.lvclass
+
+===== Simulado.lvclass:Close Connection.vi
+
+:imgpath: Simulado.lvclass_Close Connection.vi.png
+image::{imgpath}[Simulado.lvclass:Close Connection.vi]
+
+*Description:*
+++++
+En este Vi se eliminan todas las comandos y respuestas guardadas en el fgv
+++++
+
+===== Simulado.lvclass:FGV.vi
+
+:imgpath: Simulado.lvclass_FGV.vi.png
+image::{imgpath}[Simulado.lvclass:FGV.vi]
+
+*Description:*
+++++
+En esta FGV se utiliza como una base de datos en RAM, que guarda todos los datos mientras se este utilizando el programa
+++++
+
+===== Simulado.lvclass:Initialize.vi
+
+:imgpath: Simulado.lvclass_Initialize.vi.png
+image::{imgpath}[Simulado.lvclass:Initialize.vi]
+
+*Description:*
+++++
+Se inicializa la FGV y se almacenan todas las posibles respuestas y preguntas de la FGV
+++++
+
+===== Simulado.lvclass:PIN READ.vi
+
+:imgpath: Simulado.lvclass_PIN READ.vi.png
+image::{imgpath}[Simulado.lvclass:PIN READ.vi]
+
+*Description:*
+++++
+Regresa el valor de un pin guardado anteriormente
+++++
+
+===== Simulado.lvclass:Port to Read.vi
+
+:imgpath: Simulado.lvclass_Port to Read.vi.png
+image::{imgpath}[Simulado.lvclass:Port to Read.vi]
+
+*Description:*
+++++
+genera un comando para preguntar por el puerto que se quiere leer
+
+++++
+
+===== Simulado.lvclass:Read ADC.vi
+
+:imgpath: Simulado.lvclass_Read ADC.vi.png
+image::{imgpath}[Simulado.lvclass:Read ADC.vi]
+
+*Description:*
+++++
+Lee el dato almacenado en el ADC
+++++
+
+===== Simulado.lvclass:Read Command.vi
+
+:imgpath: Simulado.lvclass_Read Command.vi.png
+image::{imgpath}[Simulado.lvclass:Read Command.vi]
+
+*Description:*
+++++
+Obtiene todos los comando de respuesta de la FGV para ser leidos por el programa
+++++
+
+===== Simulado.lvclass:Read Number.vi
+
+:imgpath: Simulado.lvclass_Read Number.vi.png
+image::{imgpath}[Simulado.lvclass:Read Number.vi]
+
+*Description:*
+++++
+Lee el numero en hexadecimal del puerto seleccionado
+++++
+
+===== Simulado.lvclass:Read Pin.vi
+
+:imgpath: Simulado.lvclass_Read Pin.vi.png
+image::{imgpath}[Simulado.lvclass:Read Pin.vi]
+
+*Description:*
+++++
+Obtiene el valor del pin establecido
+++++
+
+===== Simulado.lvclass:Set Port Status.vi
+
+:imgpath: Simulado.lvclass_Set Port Status.vi.png
+image::{imgpath}[Simulado.lvclass:Set Port Status.vi]
+
+*Description:*
+++++
+Setea el nuevo valor del puerto que se desea
+++++
+
+===== Simulado.lvclass:Write Pin.vi
+
+:imgpath: Simulado.lvclass_Write Pin.vi.png
+image::{imgpath}[Simulado.lvclass:Write Pin.vi]
+
+*Description:*
+++++
+Escribe el valor del pin seleccionado
+++++
+
+==== TI.lvclass
+
+===== TI.lvclass:Close Connection.vi
+
+:imgpath: TI.lvclass_Close Connection.vi.png
+image::{imgpath}[TI.lvclass:Close Connection.vi]
+
+*Description:*
+++++
+Este vi de close conection, se utiliza para cerrar la comunicación de manera adecuada con el microcontrolador, de esta manera no se queda la comunicación activa y se deja el puerto habilitado
+++++
+
+===== TI.lvclass:Initialize.vi
+
+:imgpath: TI.lvclass_Initialize.vi.png
+image::{imgpath}[TI.lvclass:Initialize.vi]
+
+*Description:*
+++++
+En este vi de inicialización, donde se prepara para abrir la comuniacón entre el software y el micrcontrolado, se ajusta el puerto serial
+++++
+
+===== TI.lvclass:PIN READ.vi
+
+:imgpath: TI.lvclass_PIN READ.vi.png
+image::{imgpath}[TI.lvclass:PIN READ.vi]
+
+*Description:*
+++++
+Pin Read es el vi donde se recibe la respuesta del estado del pin por el cual se pregunto, en este vi tambien se quita el prefijo para que quede unicamente el valor
+++++
+
+===== TI.lvclass:Port to Read.vi
+
+:imgpath: TI.lvclass_Port to Read.vi.png
+image::{imgpath}[TI.lvclass:Port to Read.vi]
+
+*Description:*
+++++
+Port to read es el vi donde se manda al microcontrolador los datos del puerto que se desea leer
+++++
+
+===== TI.lvclass:Read ADC.vi
+
+:imgpath: TI.lvclass_Read ADC.vi.png
+image::{imgpath}[TI.lvclass:Read ADC.vi]
+
+*Description:*
+++++
+Read ADC es el vi donde se manda al microcontrolador los datos del canal analogico que se desea leer
+++++
+
+===== TI.lvclass:Read Command.vi
+
+:imgpath: TI.lvclass_Read Command.vi.png
+image::{imgpath}[TI.lvclass:Read Command.vi]
+
+*Description:*
+++++
+Read command es un vi generico para leer todo lo que el microcontrolador responde despues de hacer cualquier acción
+++++
+
+===== TI.lvclass:Read Number.vi
+
+:imgpath: TI.lvclass_Read Number.vi.png
+image::{imgpath}[TI.lvclass:Read Number.vi]
+
+*Description:*
+++++
+Read Number es el vi especifico para leer el puerto, se leen todos los datos del microcontrolador y se quitan los prefijos de cada una de las librerias diferentes, para unicamente dejar el valor en hexadecimal y despues ser convertido en un arreglo de booleanos
+++++
+
+===== TI.lvclass:Read Pin.vi
+
+:imgpath: TI.lvclass_Read Pin.vi.png
+image::{imgpath}[TI.lvclass:Read Pin.vi]
+
+*Description:*
+++++
+Read Pin es el vi donde se envian los datos del pin que se desea leer al microcontrolador, se envian los datos de puerto y pin
+++++
+
+===== TI.lvclass:Set Port Status.vi
+
+:imgpath: TI.lvclass_Set Port Status.vi.png
+image::{imgpath}[TI.lvclass:Set Port Status.vi]
+
+*Description:*
+++++
+Set Port Status es el vi donde se escribe el valor del puerto en hexadecimal para que sea recibido por el microcontrolador y pueda encender sus leds correspondientes
+++++
+
+===== TI.lvclass:Write Pin.vi
+
+:imgpath: TI.lvclass_Write Pin.vi.png
+image::{imgpath}[TI.lvclass:Write Pin.vi]
+
+*Description:*
+++++
+Write Pin es el vi donde se escribe el valor del puerto en binario para que sea recibido por el microcontrolador y pueda encender o apagar el led correspondiente
+++++
+
+==== Test Write Port.lvclass
+
+===== Test Write Port.lvclass:setUp.vi
+
+:imgpath: Test Write Port.lvclass_setUp.vi.png
+image::{imgpath}[Test Write Port.lvclass:setUp.vi]
+
+*Description:*
+++++
+setUp runs prior to the test method during test execution.  Use this method to initialize any object data required by your tests.
+++++
+
+===== Test Write Port.lvclass:tearDown.vi
+
+:imgpath: Test Write Port.lvclass_tearDown.vi.png
+image::{imgpath}[Test Write Port.lvclass:tearDown.vi]
+
+*Description:*
+++++
+tearDown runs after the test method has completed.  Use this method to clean up any operations or references that were opened by setUp or the test method.  Unit tests should be independent of other unit tests so this VI should ensure that the next test can run in a 'clean' test environment.
+++++
+
+===== Test Write Port.lvclass:testExample.vit
+
+:imgpath: Test Write Port.lvclass_testExample.vit.png
+image::{imgpath}[Test Write Port.lvclass:testExample.vit]
+
+*Description:*
+No description found (add content in VI description)
+
+===== Test Write Port.lvclass:temp_VI_UnderTest.vi
+
+:imgpath: Test Write Port.lvclass_temp_VI_UnderTest.vi.png
+image::{imgpath}[Test Write Port.lvclass:temp_VI_UnderTest.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== Test Write Port.lvclass:Test Write Port.vi
+
+:imgpath: Test Write Port.lvclass_Test Write Port.vi.png
+image::{imgpath}[Test Write Port.lvclass:Test Write Port.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== Test Write Port.lvclass:Test Write Pin.vi
+
+:imgpath: Test Write Port.lvclass_Test Write Pin.vi.png
+image::{imgpath}[Test Write Port.lvclass:Test Write Pin.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== Test Write Port.lvclass:Test Read ADC.vi
+
+:imgpath: Test Write Port.lvclass_Test Read ADC.vi.png
+image::{imgpath}[Test Write Port.lvclass:Test Read ADC.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== Test Write Port.lvclass:Test Read Port.vi
+
+:imgpath: Test Write Port.lvclass_Test Read Port.vi.png
+image::{imgpath}[Test Write Port.lvclass:Test Read Port.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+===== Test Write Port.lvclass:Test Read Pin.vi
+
+:imgpath: Test Write Port.lvclass_Test Read Pin.vi.png
+image::{imgpath}[Test Write Port.lvclass:Test Read Pin.vi]
+
+*Description:*
+No description found (add content in VI description)
+
+== Legal Information
+
+=== Document creation
+
+This document has been generated using the following tools.
+
+==== Antidoc
+
+Project website: https://wovalab.gitlab.io/open-source/labview-doc-generator/[Antidoc] 
+
+Maintainer website: https://wovalab.com[Wovalab] 
+
+BSD 3-Clause License
+
+Copyright (C) 2019, Wovalab,
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this
+  list of conditions and the following disclaimer.
+
+* Redistributions in binary form must reproduce the above copyright notice,
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution.
+
+* Neither the name of the copyright holder nor the names of its
+  contributors may be used to endorse or promote products derived from
+  this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+==== Asciidoc for LabVIEW(TM)
+
+Project website: https://wovalab.gitlab.io/open-source/asciidoc-toolkit/[Asciidoc toolkit] 
+
+Maintainer website: https://wovalab.com[Wovalab] 
+
+BSD 3-Clause License
+
+Copyright (C) 2019, Wovalab,
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this
+  list of conditions and the following disclaimer.
+
+* Redistributions in binary form must reproduce the above copyright notice,
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution.
+
+* Neither the name of the copyright holder nor the names of its
+  contributors may be used to endorse or promote products derived from
+  this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+==== Graph Builder
+
+Project website: https://gitlab.com/cgambini/graph-builder[Graph Builder]
+
+BSD 3-Clause License
+
+Copyright (c) 2020, Cyril GAMBINI
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this
+  list of conditions and the following disclaimer.
+
+* Redistributions in binary form must reproduce the above copyright notice,
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution.
+
+* Neither the name of the copyright holder nor the names of its
+  contributors may be used to endorse or promote products derived from
+  this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+=== Product used in the project
+
+The documented project has been developed with the following products.
+
+==== DQMH(R)
+
+Copyright (C) 2015-2020 by Delacor, LLC. All Rights Reserved.
+
+Find more details on https://delacor.com/products/dqmh/[Delacor] website
+
